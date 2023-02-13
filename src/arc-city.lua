@@ -6,9 +6,12 @@ local state = {
 }
 
 local images = {}
+local sound = {}
 
 function love.load()
     love.window.setMode(640, 400)
+    sound["pre_wave"] = love.audio.newSource("sounds/pre-wave.wav", "stream")
+    sound["wave_music"] = love.audio.newSource("sounds/wave-music.wav", "stream")
     images["city1"] = love.graphics.newImage("art/City1.png")
     images["city2"] = love.graphics.newImage("art/City2.png")
     images["city3"] = love.graphics.newImage("art/City3.png")
@@ -18,6 +21,11 @@ function love.load()
 end
 
 function love.update(dt)
+    if not sound["wave_music"]:isPlaying() then
+        sound.wave_music:setLooping(true)
+        sound.wave_music:play()
+    end
+
     if state.expand_city_in <= 0 then
         if state.show_city2 == false then
             state.show_city2 = true
